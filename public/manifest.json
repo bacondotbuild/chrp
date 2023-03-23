@@ -1,0 +1,8 @@
+{
+  "name": "chrp",
+  "short_name": "chrp",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/"
+}
