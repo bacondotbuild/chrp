@@ -20,7 +20,7 @@ const Layout = ({
       <Meta
         title={title === DEFAULT_TITLE ? title : `${title} - ${DEFAULT_TITLE}`}
       />
-      <Header>
+      {/* <Header>
         {pathname === '/' ? (
           <span>{DEFAULT_TITLE}</span>
         ) : (
@@ -42,7 +42,7 @@ const Layout = ({
             </Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       {children}
     </Page>
   )
