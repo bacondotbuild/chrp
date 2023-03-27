@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { SignInButton, useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { Main } from '@bacondotbuild/ui'
+import { Loading, Main } from '@bacondotbuild/ui'
 
 import Layout from '@/components/layout'
 import { api, type RouterOutputs } from '@/utils/api'
@@ -59,26 +59,44 @@ const PostView = (props: PostWithUser) => {
   )
 }
 
-const Home: NextPage = () => {
-  const user = useUser()
-  const { data, isLoading } = api.posts.getAll.useQuery()
+const Feed = () => {
+  const { data, isLoading: postsLoading } = api.posts.getAll.useQuery()
 
-  if (isLoading) return <Layout>loading</Layout>
+  if (postsLoading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    )
   if (!data) return <div>something went wrong</div>
+
+  return (
+    <ul className='flex flex-col'>
+      {data.map(post => (
+        <PostView key={post.post.id} {...post} />
+      ))}
+    </ul>
+  )
+}
+
+const Home: NextPage = () => {
+  const { isSignedIn, isLoaded: userLoaded } = useUser()
+
+  // Start fetching data asap
+  api.posts.getAll.useQuery()
+
   return (
     <Layout>
-      <Main className='flex justify-center'>
-        <div className='w-full border-x border-slate-400 md:max-w-2xl'>
-          <div className='border-b border-slate-400 p-4'>
-            {user.isSignedIn ? <CreatePostWizard /> : <SignInButton />}
+      {userLoaded && (
+        <Main className='flex justify-center'>
+          <div className='w-full border-x border-slate-400 md:max-w-2xl'>
+            <div className='border-b border-slate-400 p-4'>
+              {isSignedIn ? <CreatePostWizard /> : <SignInButton />}
+            </div>
+            <Feed />
           </div>
-          <ul className='flex flex-col'>
-            {data.map(post => (
-              <PostView key={post.post.id} {...post} />
-            ))}
-          </ul>
-        </div>
-      </Main>
+        </Main>
+      )}
     </Layout>
   )
 }
