@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { type NextPage } from 'next'
 import Image from 'next/image'
 import { SignInButton, useUser } from '@clerk/nextjs'
@@ -12,6 +13,16 @@ dayjs.extend(relativeTime)
 
 const CreatePostWizard = () => {
   const { user } = useUser()
+
+  const [text, setText] = useState('')
+
+  const ctx = api.useContext()
+  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+    onSuccess: () => {
+      setText('')
+      void ctx.posts.getAll.invalidate()
+    },
+  })
 
   if (!user) return null
 
@@ -29,7 +40,11 @@ const CreatePostWizard = () => {
       <input
         placeholder='type some emojis'
         className='grow bg-transparent outline-none'
+        value={text}
+        onChange={e => setText(e.target.value)}
+        disabled={isPosting}
       />
+      <button onClick={() => mutate({ content: text })}>post</button>
     </div>
   )
 }
@@ -53,7 +68,7 @@ const PostView = (props: PostWithUser) => {
           <span>·</span>
           <span className='font-thin'>{dayjs(post.createdAt).fromNow()}</span>
         </div>
-        <span>{post.content}</span>
+        <span className='text-2xl'>{post.content}</span>
       </div>
     </li>
   )
