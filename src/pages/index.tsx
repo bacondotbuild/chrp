@@ -4,7 +4,8 @@ import Image from 'next/image'
 import { SignInButton, useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { Loading, Main } from '@bacondotbuild/ui'
+import { toast } from 'react-hot-toast'
+import { Loading, LoadingIcon, Main } from '@bacondotbuild/ui'
 
 import Layout from '@/components/layout'
 import { api, type RouterOutputs } from '@/utils/api'
@@ -21,6 +22,14 @@ const CreatePostWizard = () => {
     onSuccess: () => {
       setText('')
       void ctx.posts.getAll.invalidate()
+    },
+    onError: e => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content as unknown
+      if (errorMessage) {
+        toast.error(errorMessage as string)
+      } else {
+        toast.error('failed to post! please try again later')
+      }
     },
   })
 
@@ -42,9 +51,26 @@ const CreatePostWizard = () => {
         className='grow bg-transparent outline-none'
         value={text}
         onChange={e => setText(e.target.value)}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            if (text !== '') {
+              mutate({ content: text })
+            }
+          }
+        }}
         disabled={isPosting}
       />
-      <button onClick={() => mutate({ content: text })}>post</button>
+      {text !== '' && !isPosting && (
+        <button onClick={() => mutate({ content: text })} disabled={isPosting}>
+          post
+        </button>
+      )}
+      {isPosting && (
+        <div className='flex items-center justify-center'>
+          <LoadingIcon className='h-8 w-8 animate-spin-slow text-blue-700 dark:text-blue-200' />
+        </div>
+      )}
     </div>
   )
 }
