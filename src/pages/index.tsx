@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { type NextPage } from 'next'
+import Link from 'next/link'
 import Image from 'next/image'
 import { SignInButton, useUser } from '@clerk/nextjs'
 import dayjs from 'dayjs'
@@ -37,8 +38,6 @@ const CreatePostWizard = () => {
 
   return (
     <div className='flex gap-3'>
-      {/* <p>hello there, {user.user.username}</p> */}
-      {/* <SignOutButton /> */}
       <Image
         src={user.profileImageUrl}
         alt='profile image'
@@ -90,9 +89,17 @@ const PostView = (props: PostWithUser) => {
       />
       <div className='flex flex-col'>
         <div className='flex gap-1 text-slate-300'>
-          <span>{`@${author.username}`}</span>
+          <Link
+            className='hover:text-cb-pink'
+            href={`/@${author.username}`}
+          >{`@${author.username}`}</Link>
           <span>·</span>
-          <span className='font-thin'>{dayjs(post.createdAt).fromNow()}</span>
+          <Link
+            className='font-thin hover:text-cb-pink'
+            href={`/posts/${post.id}`}
+          >
+            {dayjs(post.createdAt).fromNow()}
+          </Link>
         </div>
         <span className='text-2xl'>{post.content}</span>
       </div>
