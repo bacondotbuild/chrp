@@ -1,7 +1,6 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Header, Page } from '@bacondotbuild/ui'
+import { Main, Page } from '@bacondotbuild/ui'
 
 import Meta from '@/components/meta'
 
@@ -43,7 +42,11 @@ const Layout = ({
           </li>
         </ul>
       </nav> */}
-      {children}
+      <Main className='flex justify-center'>
+        <div className='w-full border-x border-slate-400 md:max-w-2xl'>
+          {children}
+        </div>
+      </Main>
     </Page>
   )
 }
