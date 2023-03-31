@@ -1,7 +1,28 @@
 import type { GetStaticProps, NextPage } from 'next'
 
 import Layout from '@/components/layout'
+import Post from '@/components/post'
 import { api } from '@/utils/api'
+
+const ProfileFeed = (props: { userId: string }) => {
+  const { data, isLoading } = api.posts.getPostsByUserId.useQuery({
+    userId: props.userId,
+  })
+  if (isLoading)
+    return (
+      <Layout>
+        <Loading />
+      </Layout>
+    )
+  if (!data || data.length === 0) return <div>user has not posted</div>
+  return (
+    <ul className='flex flex-col'>
+      {data.map(post => (
+        <Post key={post.post.id} {...post} />
+      ))}
+    </ul>
+  )
+}
 
 const Profile: NextPage<{ username: string }> = ({ username }) => {
   const { data } = api.profile.getUserByUsername.useQuery({
@@ -23,7 +44,7 @@ const Profile: NextPage<{ username: string }> = ({ username }) => {
       </div>
       <div className='h-[64px]'></div>
       <div className='p-4 text-2xl font-bold'>{`@${data.username ?? ''}`}</div>
-      <div></div>
+      <ProfileFeed userId={data.id} />
     </Layout>
   )
 }
@@ -33,6 +54,7 @@ import { appRouter } from '@/server/api/root'
 import { prisma } from '@/server/db'
 import superjson from 'superjson'
 import Image from 'next/image'
+import { Loading } from '@bacondotbuild/ui'
 
 export const getStaticProps: GetStaticProps = async context => {
   const ssg = createProxySSGHelpers({
