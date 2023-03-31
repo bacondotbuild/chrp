@@ -13,13 +13,15 @@ const Post = (props: PostWithUser) => {
   const { post, author } = props
   return (
     <li key={post.id} className='flex gap-3 border-b border-slate-400 p-4'>
-      <Image
-        src={author.profileImageUrl}
-        alt={`profile picture of ${author.username}`}
-        className='h-14 w-14 rounded-full'
-        width={56}
-        height={56}
-      />
+      <Link href={`/@${author.username}`}>
+        <Image
+          src={author.profileImageUrl}
+          alt={`profile picture of ${author.username}`}
+          className='h-14 w-14 rounded-full'
+          width={56}
+          height={56}
+        />
+      </Link>
       <div className='flex flex-col'>
         <div className='flex gap-1 text-slate-300'>
           <Link
