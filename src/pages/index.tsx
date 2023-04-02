@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { type NextPage } from 'next'
 import Image from 'next/image'
-import { SignInButton, useUser, SignOutButton } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 import { toast } from 'react-hot-toast'
 import { Loading, LoadingIcon } from '@bacondotbuild/ui'
 
@@ -95,10 +95,6 @@ const Home: NextPage = () => {
     <Layout>
       {userLoaded && (
         <>
-          <div className='flex justify-between border-b border-slate-400 p-4'>
-            <h1>🐦 chrp</h1>
-            {isSignedIn ? <SignOutButton /> : <SignInButton />}
-          </div>
           {isSignedIn && (
             <div className='border-b border-slate-400 p-4'>
               <CreatePostWizard />
