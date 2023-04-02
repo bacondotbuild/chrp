@@ -19,7 +19,7 @@ const ProfileFeed = (props: { userId: string }) => {
     )
   if (!data || data.length === 0) return <div>user has not posted</div>
   return (
-    <ul className='flex flex-col'>
+    <ul className='flex flex-col divide-y divide-slate-400'>
       {data.map(post => (
         <Post key={post.post.id} {...post} />
       ))}

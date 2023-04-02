@@ -12,7 +12,7 @@ type PostWithUser = RouterOutputs['posts']['getAll'][number]
 const Post = (props: PostWithUser) => {
   const { post, author } = props
   return (
-    <li key={post.id} className='flex gap-3 border-b border-slate-400 p-4'>
+    <li key={post.id} className='flex gap-3 p-4'>
       <Link href={`/@${author.username}`}>
         <Image
           src={author.profileImageUrl}
