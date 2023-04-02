@@ -11,13 +11,9 @@ const ProfileFeed = (props: { userId: string }) => {
   const { data, isLoading } = api.posts.getPostsByUserId.useQuery({
     userId: props.userId,
   })
-  if (isLoading)
-    return (
-      <Layout>
-        <Loading />
-      </Layout>
-    )
+  if (isLoading) return <Loading />
   if (!data || data.length === 0) return <div>user has not posted</div>
+
   return (
     <ul className='flex flex-col divide-y divide-slate-400'>
       {data.map(post => (

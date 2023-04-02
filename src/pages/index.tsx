@@ -73,12 +73,7 @@ const CreatePostWizard = () => {
 const Feed = () => {
   const { data, isLoading: postsLoading } = api.posts.getAll.useQuery()
 
-  if (postsLoading)
-    return (
-      <Layout>
-        <Loading />
-      </Layout>
-    )
+  if (postsLoading) return <Loading />
   if (!data) return <div>something went wrong</div>
 
   return (
@@ -129,7 +124,7 @@ const Home: NextPage = () => {
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                🥓
+                🥓 bacon.build
               </a>
             </span>
           </footer>

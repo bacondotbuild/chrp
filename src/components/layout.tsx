@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { Main, Page } from '@bacondotbuild/ui'
 
 import Meta from '@/components/meta'
@@ -12,43 +10,17 @@ const Layout = ({
 }: {
   title?: string
   children: React.ReactNode
-}) => {
-  const { pathname } = useRouter()
-  return (
-    <Page>
-      <Meta
-        title={title === DEFAULT_TITLE ? title : `${title} - ${DEFAULT_TITLE}`}
-      />
-      {/* <Header>
-        {pathname === '/' ? (
-          <span>{DEFAULT_TITLE}</span>
-        ) : (
-          <Link href='/' className='hover:text-cb-pink'>
-            {DEFAULT_TITLE}
-          </Link>
-        )}
-      </Header>
-      <nav>
-        <ul className='flex justify-center space-x-4'>
-          <li>
-            <Link className='text-cb-pink hover:underline' href='/about'>
-              about
-            </Link>
-          </li>
-          <li>
-            <Link className='text-cb-pink hover:underline' href='/contact'>
-              contact
-            </Link>
-          </li>
-        </ul>
-      </nav> */}
-      <Main className='flex justify-center'>
-        <div className='w-full border-x border-slate-400 md:max-w-2xl'>
-          {children}
-        </div>
-      </Main>
-    </Page>
-  )
-}
+}) => (
+  <Page>
+    <Meta
+      title={title === DEFAULT_TITLE ? title : `${title} - ${DEFAULT_TITLE}`}
+    />
+    <Main className='flex justify-center'>
+      <div className='flex w-full flex-col border-x border-slate-400 md:max-w-2xl'>
+        {children}
+      </div>
+    </Main>
+  </Page>
+)
 
 export default Layout
