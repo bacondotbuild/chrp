@@ -38,14 +38,16 @@ const Layout = ({
                 <div className='flex items-center gap-2'>
                   {user.username}
                   <SignOutButton>
-                    <ArrowLeftOnRectangleIcon className='h-6 w-6' />
+                    <ArrowLeftOnRectangleIcon className='h-6 w-6 hover:cursor-pointer hover:text-cb-pink' />
                   </SignOutButton>
                 </div>
               ) : (
-                <div className='flex gap-2'>
-                  login
+                <div className='hover:cursor-pointer hover:text-cb-pink'>
                   <SignInButton>
-                    <ArrowRightOnRectangleIcon className='h-6 w-6' />
+                    <span className='flex gap-2 '>
+                      login
+                      <ArrowRightOnRectangleIcon className='h-6 w-6' />
+                    </span>
                   </SignInButton>
                 </div>
               )}
